@@ -1,0 +1,114 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-carousel">
+      <div class="hero-slide" [class.active]="currentSlide === 0">
+        <img src="assets/hero-banner.svg" alt="Amazon Prime" class="responsive-img" />
+      </div>
+      <div class="hero-slide" [class.active]="currentSlide === 1">
+        <img src="assets/hero-banner-2.svg" alt="Electronics Sale" class="responsive-img" />
+      </div>
+      <div class="hero-slide" [class.active]="currentSlide === 2">
+        <img src="assets/hero-banner-3.svg" alt="Fashion Week" class="responsive-img" />
+      </div>
+      
+      <!-- Carousel Navigation -->
+      <button class="carousel-btn prev-btn" (click)="previousSlide()" aria-label="Previous slide">
+        <span>‹</span>
+      </button>
+      <button class="carousel-btn next-btn" (click)="nextSlide()" aria-label="Next slide">
+        <span>›</span>
+      </button>
+      
+      <!-- Carousel Indicators -->
+      <div class="carousel-indicators">
+        <button 
+          *ngFor="let slide of slides; let i = index" 
+          class="indicator" 
+          [class.active]="currentSlide === i"
+          (click)="goToSlide(i)"
+          [attr.aria-label]="'Go to slide ' + (i + 1)">
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Categories -->
+  <section class="categories-section py-4">
+    <div class="container">
+      <div class="grid grid-responsive categories-grid">
+        <div class="category-card card" *ngFor="let category of categories">
+          <h3 class="text-responsive">{{ category.title }}</h3>
+          <div class="category-products grid grid-2 grid-md-4">
+            <div class="product-item" *ngFor="let product of category.products">
+              <img [src]="product.image" [alt]="product.name" class="responsive-img" />
+              <span class="text-sm">{{ product.name }}</span>
+            </div>
+          </div>
+          <a [routerLink]="['/products']" [queryParams]="{category: category.slug}" class="btn btn-link">See more</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="featured-section py-4">
+    <div class="container">
+      <h2 class="text-responsive mb-3">Today's Deals</h2>
+      <div class="featured-products grid grid-1 grid-sm-2 grid-md-3 grid-lg-4 gap-3">
+        <div class="product-card card" *ngFor="let product of featuredProducts">
+          <div class="product-image">
+            <img [src]="product.image" [alt]="product.name" class="responsive-img" />
+            <div class="discount-badge" *ngIf="product.discount">-{{ product.discount }}%</div>
+          </div>
+          <div class="product-info p-2">
+            <h4 class="text-responsive">{{ product.name }}</h4>
+            <div class="product-rating flex items-center gap-1 mb-2">
+              <div class="stars">
+                <span *ngFor="let star of getStars(product.rating)" [class]="star">★</span>
+              </div>
+              <span class="rating-count text-sm">({{ product.reviewCount }})</span>
+            </div>
+            <div class="product-price mb-2">
+              <span class="current-price text-lg font-bold">${{ product.price }}</span>
+              <span class="original-price text-sm text-muted" *ngIf="product.originalPrice">${{ product.originalPrice }}</span>
+            </div>
+            <button class="add-to-cart-btn btn btn-primary w-full" (click)="addToCart(product)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recommendations -->
+  <section class="recommendations-section py-4">
+    <div class="container">
+      <h2 class="text-responsive mb-3">Recommended for you</h2>
+      <div class="recommendations-grid grid grid-2 grid-sm-3 grid-md-4 grid-lg-6 gap-3">
+        <div class="recommendation-card card" *ngFor="let item of recommendations">
+          <img [src]="item.image" [alt]="item.name" class="responsive-img" />
+          <div class="recommendation-info p-2">
+            <h4 class="text-responsive">{{ item.name }}</h4>
+            <div class="recommendation-price text-lg font-bold mb-1">${{ item.price }}</div>
+            <div class="recommendation-rating flex items-center gap-1">
+              <span *ngFor="let star of getStars(item.rating)" [class]="star">★</span>
+              <span class="text-sm">({{ item.reviewCount }})</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sign-in Prompt -->
+  <section class="signin-section py-4" *ngIf="!isLoggedIn">
+    <div class="container">
+      <div class="signin-card card text-center p-4">
+        <h3 class="text-responsive mb-2">See personalized recommendations</h3>
+        <p class="text-responsive mb-3">Sign in to get better recommendations based on your Shopping history</p>
+        <button class="signin-btn btn btn-primary mb-2" (click)="navigateToAuth()">Sign in</button>
+        <p class="new-customer text-sm">New customer? <a [routerLink]="['/auth']" [queryParams]="{mode: 'register'}" class="text-link">Start here.</a></p>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,120 @@
+<svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F1419;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#232F3E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#37475A;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="buttonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00A8E1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0073E6;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="glowEffect" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#00A8E1;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#00A8E1;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="400" fill="url(#heroGradient)"/>
+  
+  <!-- Decorative Elements -->
+  <g opacity="0.1">
+    <circle cx="200" cy="100" r="80" fill="#00A8E1"/>
+    <circle cx="1000" cy="300" r="120" fill="#00A8E1"/>
+    <circle cx="100" cy="350" r="50" fill="#00A8E1"/>
+    <circle cx="1100" cy="80" r="60" fill="#00A8E1"/>
+  </g>
+  
+  <!-- Glow Effects -->
+  <circle cx="600" cy="200" r="300" fill="url(#glowEffect)" opacity="0.5"/>
+  
+  <!-- Main Content Container -->
+  <g transform="translate(100, 80)">
+    
+    <!-- Prime Logo/Text -->
+    <g transform="translate(0, 0)">
+      <text x="0" y="40" font-family="Arial, sans-serif" font-size="52" font-weight="bold" fill="#ffffff">
+        Prime
+      </text>
+      <text x="140" y="40" font-family="Arial, sans-serif" font-size="52" font-weight="300" fill="#00A8E1">
+        Video
+      </text>
+    </g>
+    
+    <!-- Main Heading -->
+    <text x="0" y="90" font-family="Arial, sans-serif" font-size="28" font-weight="600" fill="#ffffff">
+      Watch The Boys
+    </text>
+    
+    <!-- Description -->
+    <text x="0" y="120" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" opacity="0.9">
+      Join Prime to watch the latest movies, TV shows
+    </text>
+    <text x="0" y="140" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" opacity="0.9">
+      and award-winning Amazon Originals
+    </text>
+    
+    <!-- Call to Action Button -->
+    <g transform="translate(0, 170)">
+      <rect x="0" y="0" width="250" height="50" rx="25" fill="url(#buttonGradient)"/>
+      <text x="125" y="32" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#ffffff">
+        Start your Prime membership
+      </text>
+    </g>
+    
+    <!-- Features List -->
+    <g transform="translate(0, 250)" font-family="Arial, sans-serif" font-size="14" fill="#ffffff">
+      <g transform="translate(0, 0)">
+        <circle cx="8" cy="-3" r="3" fill="#00A8E1"/>
+        <text x="20" y="0">Thousands of movies and TV episodes</text>
+      </g>
+      <g transform="translate(0, 25)">
+        <circle cx="8" cy="-3" r="3" fill="#00A8E1"/>
+        <text x="20" y="0">Award-winning Amazon Originals</text>
+      </g>
+      <g transform="translate(0, 50)">
+        <circle cx="8" cy="-3" r="3" fill="#00A8E1"/>
+        <text x="20" y="0">Watch anywhere, anytime</text>
+      </g>
+    </g>
+  </g>
+  
+  <!-- Video/Entertainment Icons -->
+  <g transform="translate(700, 120)" opacity="0.2">
+    <!-- Play Button Icon -->
+    <g transform="translate(0, 0)">
+      <circle cx="40" cy="40" r="35" fill="#00A8E1" stroke="#ffffff" stroke-width="3"/>
+      <polygon points="30,25 30,55 55,40" fill="#ffffff"/>
+    </g>
+    
+    <!-- TV Screen Icon -->
+    <g transform="translate(120, 10)">
+      <rect x="0" y="10" width="80" height="50" rx="5" fill="#00A8E1" stroke="#ffffff" stroke-width="2"/>
+      <rect x="5" y="15" width="70" height="35" fill="#ffffff"/>
+      <rect x="30" y="60" width="20" height="15" rx="3" fill="#00A8E1"/>
+      <rect x="20" y="75" width="40" height="5" rx="2" fill="#00A8E1"/>
+    </g>
+    
+    <!-- Film Strip Icon -->
+    <g transform="translate(240, 20)">
+      <rect x="0" y="0" width="60" height="40" fill="#00A8E1" stroke="#ffffff" stroke-width="2"/>
+      <rect x="-5" y="5" width="5" height="5" fill="#ffffff"/>
+      <rect x="-5" y="15" width="5" height="5" fill="#ffffff"/>
+      <rect x="-5" y="25" width="5" height="5" fill="#ffffff"/>
+      <rect x="60" y="5" width="5" height="5" fill="#ffffff"/>
+      <rect x="60" y="15" width="5" height="5" fill="#ffffff"/>
+      <rect x="60" y="25" width="5" height="5" fill="#ffffff"/>
+      <circle cx="30" cy="20" r="8" fill="#ffffff"/>
+    </g>
+  </g>
+  
+  <!-- Decorative Wave Pattern -->
+  <path d="M 0 350 Q 300 330 600 350 T 1200 350 L 1200 400 L 0 400 Z" fill="#00A8E1" opacity="0.1"/>
+  
+  <!-- Amazon Arrow -->
+  <g transform="translate(950, 350)" opacity="0.3">
+    <path d="M 0 10 Q 50 0 100 10 Q 120 15 100 20 Q 50 20 0 10" fill="#FF9900"/>
+    <circle cx="100" cy="15" r="3" fill="#FF9900"/>
+  </g>
+</svg>

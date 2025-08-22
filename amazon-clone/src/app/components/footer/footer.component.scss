@@ -1,0 +1,231 @@
+.amazon-footer {
+  background-color: #232f3e;
+  color: white;
+  font-family: 'Amazon Ember', Arial, sans-serif;
+  margin-top: auto;
+
+  .container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  // Back to Top
+  .back-to-top {
+    background-color: #37475a;
+    text-align: center;
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid #3a4553;
+
+    &:hover {
+      background-color: #485769;
+    }
+
+    span {
+      font-size: 13px;
+      color: #ddd;
+    }
+  }
+
+  // Footer Links
+  .footer-links {
+    background-color: #232f3e;
+    padding: 40px 0;
+
+    .footer-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .footer-column {
+      h3 {
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        margin-top: 0;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          margin-bottom: 8px;
+
+          a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+
+            &:hover {
+              color: white;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Footer Bottom
+  .footer-bottom {
+    background-color: #131921;
+    padding: 30px 0;
+    border-top: 1px solid #3a4553;
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: baseline;
+      font-size: 24px;
+      font-weight: bold;
+
+      .logo-text {
+        color: white;
+      }
+
+      .logo-domain {
+        color: #ff9900;
+        font-size: 14px;
+        margin-left: 2px;
+      }
+    }
+
+    .footer-options {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+
+      .language-selector,
+      .currency-selector,
+      .country-selector {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 12px;
+        border: 1px solid #3a4553;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 13px;
+
+        &:hover {
+          border-color: #ddd;
+        }
+
+        span {
+          color: #ddd;
+        }
+      }
+    }
+  }
+
+  // Footer Copyright
+  .footer-copyright {
+    background-color: #131921;
+    padding: 20px 0;
+    border-top: 1px solid #3a4553;
+    text-align: center;
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .copyright-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      a {
+        color: #ddd;
+        text-decoration: none;
+        font-size: 12px;
+        transition: color 0.2s;
+
+        &:hover {
+          color: white;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .copyright-text {
+      color: #ddd;
+      font-size: 12px;
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 768px) {
+    .footer-links {
+      .footer-columns {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+
+    .footer-bottom {
+      .container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-options {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    .footer-copyright {
+      .copyright-links {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-links {
+      padding: 30px 0;
+
+      .footer-columns {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+    }
+
+    .footer-bottom {
+      padding: 20px 0;
+
+      .footer-logo {
+        font-size: 20px;
+      }
+
+      .footer-options {
+        .language-selector,
+        .currency-selector,
+        .country-selector {
+          font-size: 12px;
+          padding: 6px 10px;
+        }
+      }
+    }
+  }
+}

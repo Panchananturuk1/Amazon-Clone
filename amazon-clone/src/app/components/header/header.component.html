@@ -1,0 +1,153 @@
+<header class="amazon-header">
+  <!-- Top Navigation Bar -->
+  <div class="header-top">
+    <div class="container flex items-center justify-between py-2">
+      <!-- Logo -->
+      <div class="logo flex-shrink-0">
+        <a routerLink="/" class="logo-link flex items-center">
+          <span class="logo-text text-white font-bold text-lg">amazon</span>
+          <span class="logo-domain text-white text-sm">.com</span>
+        </a>
+      </div>
+
+      <!-- Delivery Location -->
+      <div class="delivery-location hidden md:flex items-center gap-1 text-white">
+        <div class="location-icon text-lg">📍</div>
+        <div class="location-text flex flex-col text-xs">
+          <span class="deliver-to text-gray-300">Deliver to</span>
+          <span class="location-name font-semibold">New York 10001</span>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-container flex-1 max-w-2xl mx-4">
+        <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="relative">
+          <div class="flex">
+            <select 
+              formControlName="category" 
+              class="search-category hidden sm:block bg-gray-100 border border-r-0 px-2 py-2 text-sm rounded-l"
+              [class.border-red-500]="isFieldInvalid('category')">
+              <option value="all">All</option>
+              <option value="electronics">Electronics</option>
+              <option value="books">Books</option>
+              <option value="clothing">Clothing</option>
+              <option value="home">Home & Garden</option>
+            </select>
+            <input 
+              type="text" 
+              formControlName="query"
+              class="search-input flex-1 px-3 py-2 border border-gray-300 sm:border-l-0" 
+              placeholder="Search Amazon"
+              [class.border-red-500]="isFieldInvalid('query')">
+            <button 
+              type="submit"
+              class="search-button bg-orange-400 hover:bg-orange-500 px-4 py-2 rounded-r transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              [disabled]="searchForm.invalid">
+              <span class="search-icon text-black">🔍</span>
+            </button>
+          </div>
+          <!-- Validation Error Message -->
+          <div class="absolute top-full left-0 right-0 mt-1 z-10" *ngIf="isFieldInvalid('query')">
+            <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded text-sm">
+              {{ getFieldError('query') }}
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Navigation -->
+      <div class="nav-right flex items-center gap-4">
+        <!-- Language Selector -->
+        <div class="language-selector hidden lg:flex items-center gap-1 text-white cursor-pointer">
+          <span class="flag">🇺🇸</span>
+          <span class="lang-text text-sm">EN</span>
+        </div>
+
+        <!-- Account & Lists -->
+        <div class="account-lists hidden md:flex flex-col text-white cursor-pointer relative" (click)="toggleAccountMenu()">
+          <span class="greeting text-xs text-gray-300" *ngIf="!isLoggedIn">Hello, Sign in</span>
+          <span class="greeting text-xs text-gray-300" *ngIf="isLoggedIn">Hello, {{getUserDisplayName()}}</span>
+          <span class="account-text text-sm font-semibold">Account & Lists</span>
+          
+          <!-- Account Dropdown Menu -->
+          <div class="absolute top-full right-0 mt-1 w-64 bg-white shadow-lg rounded border z-50" *ngIf="isAccountMenuOpen">
+            <div class="p-4" *ngIf="!isLoggedIn">
+              <button class="w-full bg-yellow-400 hover:bg-yellow-500 text-black py-2 px-4 rounded mb-2 transition-colors" (click)="navigateToAuth()">
+                Sign In
+              </button>
+              <p class="text-sm text-gray-600 text-center">
+                New customer? <a routerLink="/auth" class="text-blue-600 hover:underline" (click)="isAccountMenuOpen = false">Start here.</a>
+              </p>
+            </div>
+            <div class="p-4" *ngIf="isLoggedIn">
+              <div class="border-b pb-2 mb-2">
+                <h3 class="font-semibold text-gray-800">Your Account</h3>
+              </div>
+              <ul class="space-y-1">
+                <li><a href="#" class="block py-1 text-sm text-gray-700 hover:text-blue-600">Your Orders</a></li>
+                <li><a href="#" class="block py-1 text-sm text-gray-700 hover:text-blue-600">Your Wish Lists</a></li>
+                <li><a href="#" class="block py-1 text-sm text-gray-700 hover:text-blue-600">Your Recommendations</a></li>
+                <li><a href="#" class="block py-1 text-sm text-gray-700 hover:text-blue-600">Your Prime Membership</a></li>
+                <li><a href="#" class="block py-1 text-sm text-gray-700 hover:text-blue-600">Your Account</a></li>
+                <li class="border-t pt-2 mt-2">
+                  <button class="block w-full text-left py-1 text-sm text-gray-700 hover:text-blue-600" (click)="logout()">
+                    Sign Out
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Returns & Orders -->
+        <div class="returns-orders hidden lg:flex flex-col text-white cursor-pointer">
+          <span class="returns-text text-xs text-gray-300">Returns</span>
+          <span class="orders-text text-sm font-semibold">& Orders</span>
+        </div>
+
+        <!-- Cart -->
+        <div class="cart flex items-center gap-1 text-white cursor-pointer" routerLink="/cart">
+          <div class="cart-icon relative">
+            <span class="cart-symbol text-2xl">🛒</span>
+            <span class="cart-count absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
+          </div>
+          <span class="cart-text text-sm font-semibold hidden sm:block">Cart</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="header-bottom bg-gray-800">
+    <div class="container">
+      <nav class="main-nav flex items-center gap-4 py-2">
+        <div class="nav-item hamburger-menu flex items-center gap-1 text-white cursor-pointer hover:bg-gray-700 px-2 py-1 rounded" (click)="toggleMobileMenu()">
+          <span class="hamburger-icon">☰</span>
+          <span class="all-text text-sm font-semibold">All</span>
+        </div>
+        <a routerLink="/products" class="nav-item text-white text-sm hover:bg-gray-700 px-2 py-1 rounded transition-colors hidden sm:block">Today's Deals</a>
+        <a routerLink="/products" class="nav-item text-white text-sm hover:bg-gray-700 px-2 py-1 rounded transition-colors hidden md:block">Customer Service</a>
+        <a routerLink="/products" class="nav-item text-white text-sm hover:bg-gray-700 px-2 py-1 rounded transition-colors hidden lg:block">Registry</a>
+        <a routerLink="/products" class="nav-item text-white text-sm hover:bg-gray-700 px-2 py-1 rounded transition-colors hidden lg:block">Gift Cards</a>
+        <a routerLink="/products" class="nav-item text-white text-sm hover:bg-gray-700 px-2 py-1 rounded transition-colors hidden xl:block">Sell</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay fixed inset-0 bg-black bg-opacity-50 z-50" *ngIf="isMobileMenuOpen" (click)="toggleMobileMenu()">
+    <div class="mobile-menu bg-white w-80 h-full shadow-lg" (click)="$event.stopPropagation()">
+      <div class="mobile-menu-header flex justify-between items-center p-4 bg-gray-800 text-white">
+        <span class="mobile-menu-title font-bold text-lg">Browse</span>
+        <button class="close-menu text-2xl hover:bg-gray-700 w-8 h-8 rounded flex items-center justify-center" (click)="toggleMobileMenu()">✕</button>
+      </div>
+      <div class="mobile-menu-content flex flex-col">
+        <a routerLink="/" class="mobile-nav-item block px-4 py-3 border-b hover:bg-gray-100 transition-colors" (click)="toggleMobileMenu()">Home</a>
+        <a routerLink="/products" class="mobile-nav-item block px-4 py-3 border-b hover:bg-gray-100 transition-colors" (click)="toggleMobileMenu()">All Products</a>
+        <a routerLink="/products" class="mobile-nav-item block px-4 py-3 border-b hover:bg-gray-100 transition-colors" (click)="toggleMobileMenu()">Today's Deals</a>
+        <a routerLink="/auth" class="mobile-nav-item block px-4 py-3 border-b hover:bg-gray-100 transition-colors" (click)="toggleMobileMenu()">Sign In</a>
+        <a routerLink="/cart" class="mobile-nav-item block px-4 py-3 border-b hover:bg-gray-100 transition-colors" (click)="toggleMobileMenu()">Cart</a>
+      </div>
+    </div>
+  </div>
+</header>

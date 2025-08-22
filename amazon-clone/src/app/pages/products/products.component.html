@@ -1,0 +1,277 @@
+<div class="products-container">
+  <div class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb py-2">
+      <a routerLink="/" class="text-link">Home</a>
+      <span class="separator">›</span>
+      <span *ngIf="selectedCategory" class="text-muted">{{ selectedCategory }}</span>
+      <span *ngIf="!selectedCategory" class="text-muted">All Products</span>
+    </nav>
+
+    <!-- Search Results Header -->
+    <div class="search-header py-3" *ngIf="searchQuery">
+      <h1 class="text-responsive">Results for "{{ searchQuery }}"</h1>
+      <p class="text-muted">{{ totalProducts }} results</p>
+    </div>
+
+    <div class="products-layout flex flex-col lg:flex-row gap-4">
+      <!-- Sidebar Filters -->
+      <aside class="filters-sidebar w-full lg:w-64 flex-shrink-0">
+        <div class="filter-section">
+          <h3>Department</h3>
+          <div class="filter-options">
+            <label *ngFor="let category of categories">
+              <input 
+                type="checkbox" 
+                [value]="category.name"
+                (change)="onCategoryFilter($event)"
+                [checked]="selectedCategories.includes(category.name)">
+              <span>{{ category.name }}</span>
+              <span class="count">({{ category.count }})</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>Price</h3>
+          <div class="price-filter">
+            <form [formGroup]="priceFilterForm" (ngSubmit)="onPriceFilter()">
+              <div class="price-inputs">
+                <input 
+                  type="number" 
+                  placeholder="Min"
+                  formControlName="min"
+                  (blur)="onPriceFilter()"
+                  [class.error]="isFieldInvalid(priceFilterForm, 'min')">
+                <span>to</span>
+                <input 
+                  type="number" 
+                  placeholder="Max"
+                  formControlName="max"
+                  (blur)="onPriceFilter()"
+                  [class.error]="isFieldInvalid(priceFilterForm, 'max')">
+              </div>
+              <!-- Validation Error Messages -->
+              <div class="validation-errors" *ngIf="isFieldInvalid(priceFilterForm, 'min') || isFieldInvalid(priceFilterForm, 'max') || isPriceRangeInvalid()">
+                <div class="error-message" *ngIf="isFieldInvalid(priceFilterForm, 'min')">
+                  {{ getFieldError(priceFilterForm, 'min') }}
+                </div>
+                <div class="error-message" *ngIf="isFieldInvalid(priceFilterForm, 'max')">
+                  {{ getFieldError(priceFilterForm, 'max') }}
+                </div>
+                <div class="error-message" *ngIf="isPriceRangeInvalid()">
+                  {{ getPriceRangeError() }}
+                </div>
+              </div>
+            </form>
+            <div class="price-ranges">
+              <label *ngFor="let range of priceRanges">
+                <input 
+                  type="radio" 
+                  name="priceRange"
+                  [value]="range.value"
+                  (change)="onPriceRangeFilter(range)">
+                <span>{{ range.label }}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>Customer Reviews</h3>
+          <div class="rating-filter">
+            <label *ngFor="let rating of ratingFilters">
+              <input 
+                type="checkbox" 
+                [value]="rating.value"
+                (change)="onRatingFilter($event)"
+                [checked]="selectedRatings.includes(rating.value)">
+              <div class="stars">
+                <span *ngFor="let star of getStars(rating.value)" 
+                      [class]="star ? 'star-filled' : 'star-empty'">★</span>
+              </div>
+              <span>& Up</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>Brand</h3>
+          <div class="brand-search">
+            <form [formGroup]="brandSearchForm">
+              <input 
+                type="text" 
+                placeholder="Search brands"
+                formControlName="query"
+                (input)="filterBrands()"
+                [class.error]="isFieldInvalid(brandSearchForm, 'query')">
+              <!-- Validation Error Message -->
+              <div class="error-message" *ngIf="isFieldInvalid(brandSearchForm, 'query')">
+                {{ getFieldError(brandSearchForm, 'query') }}
+              </div>
+            </form>
+          </div>
+          <div class="filter-options brand-options">
+            <label *ngFor="let brand of filteredBrands">
+              <input 
+                type="checkbox" 
+                [value]="brand.name"
+                (change)="onBrandFilter($event)"
+                [checked]="selectedBrands.includes(brand.name)">
+              <span>{{ brand.name }}</span>
+              <span class="count">({{ brand.count }})</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>Availability</h3>
+          <div class="filter-options">
+            <label>
+              <input 
+                type="checkbox" 
+                (change)="onAvailabilityFilter('inStock', $event)"
+                [checked]="availabilityFilters.inStock">
+              <span>Include Out of Stock</span>
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="products-main flex-1">
+        <!-- Sort and View Options -->
+        <div class="products-toolbar flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 p-3 bg-light rounded">
+          <div class="results-info">
+            <span class="text-sm text-muted">{{ startIndex }}-{{ endIndex }} of {{ totalProducts }} results</span>
+          </div>
+          
+          <div class="sort-options flex items-center gap-2">
+            <label class="text-sm">Sort by:</label>
+            <select [(ngModel)]="sortBy" (change)="onSortChange()" class="form-control">
+              <option value="relevance">Featured</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Avg. Customer Review</option>
+              <option value="newest">Newest Arrivals</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Active Filters -->
+        <div class="active-filters mb-4" *ngIf="hasActiveFilters()">
+          <span class="filter-label text-sm font-bold mb-2 block">Applied filters:</span>
+          <div class="filter-tags flex flex-wrap gap-2">
+            <span *ngFor="let category of selectedCategories" 
+                  class="filter-tag bg-primary text-white px-2 py-1 rounded text-sm flex items-center gap-1">
+              {{ category }}
+              <button (click)="removeCategoryFilter(category)" class="text-white hover:text-gray-200">×</button>
+            </span>
+            <span *ngFor="let brand of selectedBrands" 
+                  class="filter-tag bg-primary text-white px-2 py-1 rounded text-sm flex items-center gap-1">
+              {{ brand }}
+              <button (click)="removeBrandFilter(brand)" class="text-white hover:text-gray-200">×</button>
+            </span>
+            <span *ngFor="let rating of selectedRatings" 
+                  class="filter-tag bg-primary text-white px-2 py-1 rounded text-sm flex items-center gap-1">
+              {{ rating }}+ Stars
+              <button (click)="removeRatingFilter(rating)" class="text-white hover:text-gray-200">×</button>
+            </span>
+            <button class="clear-all btn btn-secondary text-sm" (click)="clearAllFilters()">Clear all</button>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid grid grid-1 grid-sm-2 grid-md-3 grid-lg-4 gap-4">
+          <div *ngFor="let product of paginatedProducts" class="product-card card hover:shadow-lg transition-shadow">
+            <div class="product-image relative">
+              <img [src]="product.image" [alt]="product.name" class="responsive-img">
+              <div class="product-badges absolute top-2 left-2 flex flex-col gap-1">
+                <span *ngIf="product.discount > 0" class="discount-badge bg-red-500 text-white px-2 py-1 rounded text-xs">
+                  -{{ product.discount }}%
+                </span>
+                <span *ngIf="product.isAmazonChoice" class="choice-badge bg-orange-500 text-white px-2 py-1 rounded text-xs">
+                  Amazon's Choice
+                </span>
+                <span *ngIf="product.isBestseller" class="bestseller-badge bg-green-500 text-white px-2 py-1 rounded text-xs">
+                  #1 Best Seller
+                </span>
+              </div>
+            </div>
+            
+            <div class="product-info p-3">
+              <h3 class="product-title mb-2">
+                <a [routerLink]="['/product', product.id]" class="text-link hover:underline text-responsive">{{ product.name }}</a>
+              </h3>
+              
+              <div class="product-rating flex items-center gap-1 mb-2">
+                <div class="stars">
+                  <span *ngFor="let star of getStars(product.rating)" 
+                        [class]="star ? 'star-filled' : 'star-empty'">★</span>
+                </div>
+                <span class="rating-count text-sm text-muted">({{ product.reviewCount }})</span>
+              </div>
+              
+              <div class="product-price mb-2">
+                <span class="current-price text-lg font-bold">${{ product.price }}</span>
+                <span *ngIf="product.originalPrice" class="original-price text-sm text-muted line-through ml-2">
+                  ${{ product.originalPrice }}
+                </span>
+              </div>
+              
+              <div class="product-delivery mb-3 text-sm" *ngIf="product.freeShipping">
+                <span class="free-shipping text-green-600 font-semibold">FREE delivery</span>
+                <span class="delivery-date text-muted block">{{ getDeliveryDate() }}</span>
+              </div>
+              
+              <div class="product-actions flex gap-2">
+                <button class="add-to-cart-btn btn btn-primary flex-1" (click)="addToCart(product)">
+                  Add to Cart
+                </button>
+                <button class="wishlist-btn btn btn-outline p-2" (click)="addToWishlist(product)">
+                  ♡
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Results -->
+        <div *ngIf="paginatedProducts.length === 0" class="no-results text-center py-8">
+          <h2 class="text-responsive mb-3">No results found</h2>
+          <p class="text-muted mb-4">Try adjusting your search or filter to find what you're looking for.</p>
+          <ul class="text-left inline-block text-muted">
+            <li>Check your spelling</li>
+            <li>Try more general keywords</li>
+            <li>Try different keywords</li>
+          </ul>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination flex justify-center items-center gap-2 mt-8" *ngIf="totalPages > 1">
+          <button 
+            class="page-btn btn btn-outline" 
+            [disabled]="currentPage === 1"
+            (click)="goToPage(currentPage - 1)">
+            ‹ Previous
+          </button>
+          
+          <button 
+            *ngFor="let page of getVisiblePages()" 
+            class="page-btn btn"
+            [class]="page === currentPage ? 'btn-primary' : 'btn-outline'"
+            (click)="goToPage(page)">
+            {{ page }}
+          </button>
+          
+          <button 
+            class="page-btn btn btn-outline" 
+            [disabled]="currentPage === totalPages"
+            (click)="goToPage(currentPage + 1)">
+            Next ›
+          </button>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>

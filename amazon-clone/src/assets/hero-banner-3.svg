@@ -1,0 +1,92 @@
+<svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="heroGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F1419;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#232F3E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#37475A;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="buttonGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9900;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E88B00;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="400" fill="url(#heroGradient3)"/>
+  
+  <!-- Decorative Elements -->
+  <g opacity="0.15">
+    <polygon points="200,50 250,150 150,150" fill="#FF9900"/>
+    <polygon points="1000,300 1100,350 950,380" fill="#FF9900"/>
+    <rect x="80" y="320" width="60" height="60" rx="10" fill="#FF9900" transform="rotate(45 110 350)"/>
+    <rect x="950" y="80" width="40" height="40" rx="8" fill="#FF9900" transform="rotate(30 970 100)"/>
+  </g>
+  
+  <!-- Main Content Container -->
+  <g transform="translate(100, 80)">
+    
+    <!-- Main Heading -->
+    <text x="0" y="40" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#ffffff">
+      Fashion Week
+    </text>
+    
+    <!-- Subheading -->
+    <text x="0" y="80" font-family="Arial, sans-serif" font-size="24" fill="#ffffff" opacity="0.9">
+      Trending styles for every season
+    </text>
+    
+    <!-- Description -->
+    <text x="0" y="110" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" opacity="0.8">
+      Clothing, shoes, accessories and more
+    </text>
+    
+    <!-- Call to Action Button -->
+    <g transform="translate(0, 140)">
+      <rect x="0" y="0" width="200" height="50" rx="25" fill="url(#buttonGradient3)"/>
+      <text x="100" y="32" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff">
+        Explore Fashion
+      </text>
+    </g>
+    
+    <!-- Features List -->
+    <g transform="translate(0, 220)" font-family="Arial, sans-serif" font-size="14" fill="#ffffff">
+      <g transform="translate(0, 0)">
+        <circle cx="8" cy="-3" r="3" fill="#FF9900"/>
+        <text x="20" y="0">Latest fashion trends</text>
+      </g>
+      <g transform="translate(0, 25)">
+        <circle cx="8" cy="-3" r="3" fill="#FF9900"/>
+        <text x="20" y="0">Designer brands at great prices</text>
+      </g>
+      <g transform="translate(0, 50)">
+        <circle cx="8" cy="-3" r="3" fill="#FF9900"/>
+        <text x="20" y="0">Free returns on all fashion items</text>
+      </g>
+    </g>
+  </g>
+  
+  <!-- Fashion Icons -->
+  <g transform="translate(700, 100)" opacity="0.3">
+    <!-- T-shirt Icon -->
+    <g transform="translate(0, 0)">
+      <path d="M 15 15 L 25 5 L 35 5 L 45 15 L 45 25 L 40 25 L 40 60 L 20 60 L 20 25 L 15 25 Z" fill="#FF9900" stroke="#ffffff" stroke-width="2"/>
+      <circle cx="30" cy="35" r="8" fill="#ffffff"/>
+    </g>
+    
+    <!-- Shoe Icon -->
+    <g transform="translate(80, 30)">
+      <ellipse cx="30" cy="20" rx="25" ry="12" fill="#FF9900" stroke="#ffffff" stroke-width="2"/>
+      <path d="M 5 20 Q 15 10 30 15 Q 45 10 55 20 L 55 25 Q 45 35 30 30 Q 15 35 5 25 Z" fill="#ffffff"/>
+    </g>
+    
+    <!-- Handbag Icon -->
+    <g transform="translate(180, 10)">
+      <rect x="10" y="25" width="40" height="35" rx="5" fill="#FF9900" stroke="#ffffff" stroke-width="2"/>
+      <path d="M 20 25 Q 20 15 30 15 Q 40 15 40 25" fill="none" stroke="#ffffff" stroke-width="3"/>
+      <rect x="15" y="30" width="30" height="20" fill="#ffffff"/>
+    </g>
+  </g>
+  
+  <!-- Decorative Wave Pattern -->
+  <path d="M 0 380 Q 200 360 400 380 T 800 380 Q 1000 360 1200 380 L 1200 400 L 0 400 Z" fill="#FF9900" opacity="0.1"/>
+</svg>

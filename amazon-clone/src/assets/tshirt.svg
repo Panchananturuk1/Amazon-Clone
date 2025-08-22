@@ -1,0 +1,34 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="shirtGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357abd;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="300" fill="#f8f9fa"/>
+  
+  <!-- T-Shirt Body -->
+  <path d="M 80 120 L 80 260 Q 80 270 90 270 L 210 270 Q 220 270 220 260 L 220 120 Z" fill="url(#shirtGradient)" stroke="#2c5aa0" stroke-width="2"/>
+  
+  <!-- Sleeves -->
+  <path d="M 80 120 Q 60 110 50 130 L 50 160 Q 50 170 60 170 L 80 160 Z" fill="url(#shirtGradient)" stroke="#2c5aa0" stroke-width="2"/>
+  <path d="M 220 120 Q 240 110 250 130 L 250 160 Q 250 170 240 170 L 220 160 Z" fill="url(#shirtGradient)" stroke="#2c5aa0" stroke-width="2"/>
+  
+  <!-- Neckline -->
+  <path d="M 120 120 Q 150 100 180 120 Q 170 110 150 110 Q 130 110 120 120 Z" fill="#f8f9fa" stroke="#2c5aa0" stroke-width="2"/>
+  
+  <!-- Collar -->
+  <path d="M 120 120 Q 135 115 150 115 Q 165 115 180 120" stroke="#2c5aa0" stroke-width="3" fill="none"/>
+  
+  <!-- Seam Lines -->
+  <line x1="90" y1="130" x2="90" y2="260" stroke="#2c5aa0" stroke-width="1" opacity="0.3"/>
+  <line x1="210" y1="130" x2="210" y2="260" stroke="#2c5aa0" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Hem -->
+  <line x1="90" y1="260" x2="210" y2="260" stroke="#2c5aa0" stroke-width="2"/>
+  
+  <!-- Shadow -->
+  <ellipse cx="150" cy="280" rx="60" ry="8" fill="#000" opacity="0.1"/>
+</svg>

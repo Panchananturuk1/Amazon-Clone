@@ -1,0 +1,406 @@
+.amazon-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #131921;
+  color: white;
+  font-family: 'Amazon Ember', Arial, sans-serif;
+
+  .container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  // Top Header
+  .header-top {
+    background-color: #131921;
+    padding: 8px 0;
+    border-bottom: 1px solid #3a4553;
+
+    .container {
+      gap: 20px;
+    }
+  }
+
+  // Logo
+  .logo {
+    .logo-link {
+      text-decoration: none;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      display: flex;
+      align-items: baseline;
+      padding: 8px;
+      border-radius: 2px;
+      transition: all 0.2s;
+
+      &:hover {
+        border: 1px solid white;
+      }
+
+      .logo-text {
+        color: white;
+      }
+
+      .logo-domain {
+        color: #ff9900;
+        font-size: 14px;
+        margin-left: 2px;
+      }
+    }
+  }
+
+  // Delivery Location
+  .delivery-location {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 120px;
+
+    &:hover {
+      border: 1px solid white;
+    }
+
+    .location-icon {
+      font-size: 18px;
+      margin-right: 5px;
+    }
+
+    .location-text {
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+
+      .deliver-to {
+        color: #ccc;
+        font-size: 11px;
+      }
+
+      .location-name {
+        color: white;
+        font-weight: bold;
+        font-size: 13px;
+      }
+    }
+  }
+
+  // Search Container
+  .search-container {
+    flex: 1;
+    max-width: 600px;
+    display: flex;
+    height: 40px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+
+    .search-category {
+      background-color: #f3f3f3;
+      border: none;
+      padding: 0 10px;
+      font-size: 12px;
+      color: #333;
+      border-radius: 4px 0 0 4px;
+      cursor: pointer;
+      min-width: 50px;
+
+      &:focus {
+        outline: 2px solid #ff9900;
+      }
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      padding: 0 15px;
+      font-size: 16px;
+      outline: none;
+
+      &:focus {
+        outline: 2px solid #ff9900;
+      }
+    }
+
+    .search-button {
+      background-color: #ff9900;
+      border: none;
+      padding: 0 15px;
+      cursor: pointer;
+      border-radius: 0 4px 4px 0;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #e68900;
+      }
+
+      .search-icon {
+        font-size: 18px;
+        color: #333;
+      }
+    }
+  }
+
+  // Right Navigation
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .language-selector,
+  .account-lists,
+  .returns-orders,
+  .cart {
+    padding: 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    min-height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &:hover {
+      border: 1px solid white;
+    }
+  }
+
+  .language-selector {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+  }
+
+  .account-lists {
+    .greeting {
+      font-size: 12px;
+      color: #ccc;
+    }
+
+    .account-text {
+      font-size: 13px;
+      font-weight: bold;
+    }
+  }
+
+  .returns-orders {
+    .returns-text {
+      font-size: 12px;
+      color: #ccc;
+    }
+
+    .orders-text {
+      font-size: 13px;
+      font-weight: bold;
+    }
+  }
+
+  .cart {
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+
+    .cart-icon {
+      position: relative;
+      font-size: 24px;
+
+      .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: #ff9900;
+        color: #333;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+      }
+    }
+
+    .cart-text {
+      font-size: 13px;
+      font-weight: bold;
+    }
+  }
+
+  // Bottom Header
+  .header-bottom {
+    background-color: #232f3e;
+    padding: 8px 0;
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .nav-item {
+        color: white;
+        text-decoration: none;
+        padding: 8px 10px;
+        border-radius: 2px;
+        font-size: 14px;
+        transition: all 0.2s;
+        cursor: pointer;
+
+        &:hover {
+          border: 1px solid white;
+        }
+      }
+
+      .hamburger-menu {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: bold;
+
+        .hamburger-icon {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  // Mobile Menu
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: flex;
+
+    .mobile-menu {
+      background-color: white;
+      width: 300px;
+      height: 100%;
+      overflow-y: auto;
+      color: #333;
+
+      .mobile-menu-header {
+        background-color: #232f3e;
+        color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .mobile-menu-title {
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        .close-menu {
+          background: none;
+          border: none;
+          color: white;
+          font-size: 20px;
+          cursor: pointer;
+        }
+      }
+
+      .mobile-menu-content {
+        padding: 20px 0;
+
+        .mobile-nav-item {
+          display: block;
+          padding: 15px 20px;
+          color: #333;
+          text-decoration: none;
+          border-bottom: 1px solid #eee;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background-color: #f5f5f5;
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 1024px) {
+    .delivery-location {
+      display: none;
+    }
+
+    .search-container {
+      max-width: 400px;
+    }
+
+    .language-selector,
+    .returns-orders {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header-top .container {
+      gap: 10px;
+    }
+
+    .search-container {
+      max-width: 250px;
+    }
+
+    .account-lists {
+      .greeting {
+        display: none;
+      }
+    }
+
+    .header-bottom .main-nav {
+      gap: 10px;
+
+      .nav-item:not(.hamburger-menu) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .header-top .container {
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .logo .logo-link {
+      font-size: 20px;
+    }
+
+    .search-container {
+      order: 3;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .nav-right {
+      gap: 5px;
+    }
+
+    .account-lists .account-text {
+      font-size: 11px;
+    }
+
+    .cart .cart-text {
+      font-size: 11px;
+    }
+  }
+}

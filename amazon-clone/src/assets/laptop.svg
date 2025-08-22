@@ -1,0 +1,62 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="laptopGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8e8e8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c0c0c0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="screenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="300" fill="#f8f9fa"/>
+  
+  <!-- Laptop Base -->
+  <rect x="40" y="180" width="220" height="80" rx="8" fill="url(#laptopGradient)" stroke="#999" stroke-width="2"/>
+  
+  <!-- Laptop Screen -->
+  <rect x="50" y="60" width="200" height="130" rx="6" fill="url(#laptopGradient)" stroke="#999" stroke-width="2"/>
+  
+  <!-- Screen Display -->
+  <rect x="60" y="70" width="180" height="110" rx="4" fill="url(#screenGradient)"/>
+  
+  <!-- Apple Logo -->
+  <circle cx="150" cy="125" r="8" fill="#666" opacity="0.3"/>
+  
+  <!-- Keyboard -->
+  <rect x="60" y="200" width="180" height="40" rx="4" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
+  
+  <!-- Keyboard Keys -->
+  <g fill="#e0e0e0" stroke="#ccc" stroke-width="0.5">
+    <rect x="70" y="210" width="12" height="8" rx="1"/>
+    <rect x="85" y="210" width="12" height="8" rx="1"/>
+    <rect x="100" y="210" width="12" height="8" rx="1"/>
+    <rect x="115" y="210" width="12" height="8" rx="1"/>
+    <rect x="130" y="210" width="12" height="8" rx="1"/>
+    <rect x="145" y="210" width="12" height="8" rx="1"/>
+    <rect x="160" y="210" width="12" height="8" rx="1"/>
+    <rect x="175" y="210" width="12" height="8" rx="1"/>
+    <rect x="190" y="210" width="12" height="8" rx="1"/>
+    <rect x="205" y="210" width="12" height="8" rx="1"/>
+    <rect x="220" y="210" width="12" height="8" rx="1"/>
+    
+    <rect x="75" y="222" width="12" height="8" rx="1"/>
+    <rect x="90" y="222" width="12" height="8" rx="1"/>
+    <rect x="105" y="222" width="12" height="8" rx="1"/>
+    <rect x="120" y="222" width="12" height="8" rx="1"/>
+    <rect x="135" y="222" width="12" height="8" rx="1"/>
+    <rect x="150" y="222" width="12" height="8" rx="1"/>
+    <rect x="165" y="222" width="12" height="8" rx="1"/>
+    <rect x="180" y="222" width="12" height="8" rx="1"/>
+    <rect x="195" y="222" width="12" height="8" rx="1"/>
+    <rect x="210" y="222" width="12" height="8" rx="1"/>
+  </g>
+  
+  <!-- Trackpad -->
+  <rect x="130" y="245" width="40" height="25" rx="3" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  
+  <!-- Shadow -->
+  <ellipse cx="150" cy="270" rx="100" ry="8" fill="#000" opacity="0.1"/>
+</svg>

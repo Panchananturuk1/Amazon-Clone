@@ -1,0 +1,267 @@
+<div class="product-detail-container">
+  <div class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb py-2">
+      <a routerLink="/" class="text-link">Home</a>
+      <span class="separator">›</span>
+      <a routerLink="/products" class="text-link">{{ product?.category }}</a>
+      <span class="separator">›</span>
+      <span class="text-muted">{{ product?.title }}</span>
+    </nav>
+
+    <div class="product-detail-layout grid grid-1 lg:grid-3 gap-6">
+      <!-- Product Images -->
+      <div class="product-images flex flex-col lg:flex-row gap-3">
+        <div class="image-thumbnails flex flex-row lg:flex-col gap-2 order-2 lg:order-1">
+          <div 
+            *ngFor="let image of product?.images; let i = index" 
+            class="thumbnail cursor-pointer border-2 rounded transition-colors" 
+            [class]="selectedImageIndex === i ? 'border-primary' : 'border-gray-300'"
+            (click)="selectImage(i)">
+            <img [src]="image" [alt]="product?.title" class="responsive-img">
+          </div>
+        </div>
+        <div class="main-image relative order-1 lg:order-2 flex-1">
+          <img [src]="product?.images?.[selectedImageIndex]" [alt]="product?.title" class="responsive-img">
+          <div class="image-zoom absolute top-2 right-2 bg-white p-2 rounded cursor-pointer shadow" (click)="openImageModal()">🔍</div>
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-info">
+        <div class="product-badges flex flex-wrap gap-2 mb-3" *ngIf="product?.badges?.length">
+          <span 
+            *ngFor="let badge of product?.badges" 
+            class="badge px-2 py-1 rounded text-xs font-semibold" 
+            [ngClass]="badge.type">
+            {{ badge.text }}
+          </span>
+        </div>
+
+        <h1 class="product-title text-responsive font-bold mb-3">{{ product?.title }}</h1>
+        
+        <div class="product-brand mb-2" *ngIf="product?.brand">
+          Brand: <a href="#" class="text-link">{{ product?.brand }}</a>
+        </div>
+
+        <div class="product-rating flex items-center gap-2 mb-4">
+          <div class="stars">
+            <span *ngFor="let star of getStars(product?.rating || 0)" 
+                  [class]="star ? 'star-filled' : 'star-empty'">★</span>
+          </div>
+          <span class="rating-text text-sm">{{ product?.rating }} out of 5</span>
+          <a href="#reviews" class="rating-count text-link text-sm">({{ product?.reviewCount }} customer reviews)</a>
+        </div>
+
+        <div class="product-price mb-4">
+          <div class="current-price text-2xl font-bold text-red-600">${{ product?.price }}</div>
+          <div class="original-price text-sm text-muted" *ngIf="product?.originalPrice">
+            List Price: <span class="line-through">${{ product?.originalPrice }}</span>
+          </div>
+          <div class="savings text-sm text-green-600 font-semibold" *ngIf="product?.originalPrice">
+            You Save: ${{ getSavingsAmount() }} 
+            ({{ getDiscountPercentage() }}%)
+          </div>
+        </div>
+
+        <div class="product-availability mb-3">
+          <span class="in-stock text-green-600 font-semibold" *ngIf="product?.inStock">✓ In Stock</span>
+          <span class="out-of-stock text-red-600 font-semibold" *ngIf="!product?.inStock">Currently unavailable</span>
+        </div>
+
+        <div class="product-delivery mb-4 text-sm" *ngIf="product?.inStock">
+          <div class="free-shipping text-green-600 font-semibold">FREE delivery</div>
+          <div class="delivery-date text-muted">{{ getDeliveryDate() }}</div>
+          <div class="fastest-delivery text-muted">Or fastest delivery Tomorrow, {{ getTomorrowDate() }}</div>
+        </div>
+
+        <!-- Product Options -->
+        <div class="product-options mb-4" *ngIf="product?.options">
+          <div class="option-group mb-3" *ngFor="let option of product?.options">
+            <label class="option-label block font-semibold mb-2">{{ option.name }}:</label>
+            <div class="option-values flex flex-wrap gap-2">
+              <button 
+                *ngFor="let value of option.values" 
+                class="option-btn btn" 
+                [class]="selectedOptions[option.name] === value ? 'btn-primary' : 'btn-outline'"
+                (click)="selectOption(option.name, value)">
+                {{ value }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantity and Add to Cart -->
+        <div class="purchase-section mb-4" *ngIf="product?.inStock">
+          <div class="quantity-selector mb-3">
+            <label class="block font-semibold mb-1">Qty:</label>
+            <select [(ngModel)]="selectedQuantity" class="form-control w-20">
+              <option *ngFor="let qty of getQuantityOptions()" [value]="qty">{{ qty }}</option>
+            </select>
+          </div>
+
+          <div class="action-buttons flex flex-col sm:flex-row gap-3 mb-3">
+            <button class="add-to-cart-btn btn btn-primary flex-1" (click)="addToCart()">Add to Cart</button>
+            <button class="buy-now-btn btn btn-secondary flex-1" (click)="buyNow()">Buy Now</button>
+          </div>
+
+          <button class="add-to-list-btn btn btn-outline w-full" (click)="addToWishlist()">Add to List</button>
+        </div>
+
+        <!-- Product Features -->
+        <div class="product-features" *ngIf="product?.features?.length">
+          <h3 class="text-lg font-bold mb-3">About this item</h3>
+          <ul class="space-y-2">
+            <li *ngFor="let feature of product?.features" class="text-sm">{{ feature }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Purchase Box -->
+      <div class="purchase-box card p-4 hidden lg:block" *ngIf="product?.inStock">
+        <div class="price-section mb-4">
+          <div class="current-price text-xl font-bold text-red-600">${{ product?.price }}</div>
+          <div class="shipping-info text-green-600 font-semibold text-sm">FREE delivery</div>
+          <div class="delivery-date text-sm text-muted">{{ getDeliveryDate() }}</div>
+        </div>
+
+        <div class="stock-info mb-3">
+          <span class="in-stock text-green-600 font-semibold">In Stock</span>
+        </div>
+
+        <div class="quantity-section mb-4">
+          <label class="block font-semibold mb-1">Qty:</label>
+          <select [(ngModel)]="selectedQuantity" class="form-control w-20">
+            <option *ngFor="let qty of getQuantityOptions()" [value]="qty">{{ qty }}</option>
+          </select>
+        </div>
+
+        <div class="purchase-buttons flex flex-col gap-3 mb-4">
+          <button class="add-to-cart-btn btn btn-primary w-full" (click)="addToCart()">Add to Cart</button>
+          <button class="buy-now-btn btn btn-secondary w-full" (click)="buyNow()">Buy Now</button>
+        </div>
+
+        <div class="additional-options mb-4">
+          <label class="gift-option flex items-center gap-2 mb-2">
+            <input type="checkbox" [(ngModel)]="isGift">
+            <span class="text-sm">Add gift options</span>
+          </label>
+          <button class="add-to-list btn btn-outline w-full" (click)="addToWishlist()">Add to List</button>
+        </div>
+
+        <div class="security-info text-sm text-muted">
+          <div class="secure-transaction mb-1">🔒 Secure transaction</div>
+          <div class="sold-by mb-1">Sold by {{ product?.seller || 'Amazon.com' }}</div>
+          <div class="return-policy">Return policy: Returnable until {{ getReturnDate() }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Details Tabs -->
+    <div class="product-details-section mt-8">
+      <div class="tabs flex flex-wrap border-b">
+        <button 
+          *ngFor="let tab of tabs" 
+          class="tab-btn px-4 py-2 border-b-2 transition-colors" 
+          [class]="activeTab === tab.id ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-primary'"
+          (click)="setActiveTab(tab.id)">
+          {{ tab.label }}
+        </button>
+      </div>
+
+      <div class="tab-content py-6">
+        <!-- Product Description -->
+        <div *ngIf="activeTab === 'description'" class="tab-panel">
+          <h3 class="text-lg font-bold mb-4">Product Description</h3>
+          <div [innerHTML]="product?.description" class="prose"></div>
+        </div>
+
+        <!-- Specifications -->
+        <div *ngIf="activeTab === 'specifications'" class="tab-panel">
+          <h3 class="text-lg font-bold mb-4">Product Specifications</h3>
+          <table class="specs-table w-full border-collapse" *ngIf="product?.specifications">
+            <tr *ngFor="let spec of product?.specifications | keyvalue" class="border-b">
+              <td class="spec-label py-2 pr-4 font-semibold text-sm">{{ spec.key }}</td>
+              <td class="spec-value py-2 text-sm">{{ spec.value }}</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Reviews -->
+        <div *ngIf="activeTab === 'reviews'" class="tab-panel" id="reviews">
+          <div class="reviews-summary mb-6">
+            <h3 class="text-lg font-bold mb-4">Customer Reviews</h3>
+            <div class="rating-breakdown flex flex-col lg:flex-row gap-6">
+              <div class="overall-rating text-center lg:text-left">
+                <div class="rating-score text-4xl font-bold mb-2">{{ product?.rating }}</div>
+                <div class="stars mb-2">
+                  <span *ngFor="let star of getStars(product?.rating || 0)" 
+                        [class]="star ? 'star-filled' : 'star-empty'">★</span>
+                </div>
+                <div class="total-reviews text-sm text-muted">{{ product?.reviewCount }} global ratings</div>
+              </div>
+              
+              <div class="rating-bars flex-1">
+                <div *ngFor="let rating of ratingBreakdown" class="rating-bar flex items-center gap-3 mb-2">
+                  <span class="rating-label text-sm w-16">{{ rating.stars }} star</span>
+                  <div class="bar-container flex-1 bg-gray-200 rounded h-4">
+                    <div class="bar-fill bg-yellow-400 h-full rounded" [style.width.%]="rating.percentage"></div>
+                  </div>
+                  <span class="rating-percentage text-sm w-12">{{ rating.percentage }}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reviews-list space-y-6">
+            <div *ngFor="let review of reviews" class="review-item border-b pb-4">
+              <div class="review-header flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-3">
+                <div class="reviewer-info">
+                  <div class="reviewer-name font-semibold">{{ review.reviewerName }}</div>
+                  <div class="review-date text-sm text-muted">{{ review.date | date:'mediumDate' }}</div>
+                </div>
+                <div class="review-rating flex items-center gap-2">
+                  <span *ngFor="let star of getStars(review.rating)" 
+                        [class]="star ? 'star-filled' : 'star-empty'">★</span>
+                  <span class="verified-purchase text-xs bg-green-100 text-green-800 px-2 py-1 rounded" *ngIf="review.verifiedPurchase">Verified Purchase</span>
+                </div>
+              </div>
+              <div class="review-title font-semibold mb-2">{{ review.title }}</div>
+              <div class="review-content text-sm mb-2">{{ review.content }}</div>
+              <div class="review-helpful text-xs text-muted" *ngIf="review.helpfulCount">
+                {{ review.helpfulCount }} people found this helpful
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    <div class="related-products mt-8" *ngIf="relatedProducts?.length">
+      <h3 class="text-lg font-bold mb-4">Customers who viewed this item also viewed</h3>
+      <div class="related-grid grid grid-2 grid-sm-3 grid-md-4 grid-lg-6 gap-4">
+        <div *ngFor="let relatedProduct of relatedProducts" class="related-item card hover:shadow-lg transition-shadow">
+          <a [routerLink]="['/product', relatedProduct.id]" class="block">
+            <img [src]="relatedProduct.image" [alt]="relatedProduct.title" class="responsive-img mb-2">
+            <div class="related-title text-sm font-semibold mb-1 line-clamp-2">{{ relatedProduct.title }}</div>
+            <div class="related-price text-lg font-bold mb-1">${{ relatedProduct.price }}</div>
+            <div class="related-rating flex items-center gap-1">
+              <span *ngFor="let star of getStars(relatedProduct.rating)" 
+                    [class]="star ? 'star-filled' : 'star-empty'">★</span>
+              <span class="rating-count text-xs text-muted">({{ relatedProduct.reviewCount }})</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image Modal -->
+<div class="image-modal fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" *ngIf="showImageModal" (click)="closeImageModal()">
+  <div class="modal-content relative max-w-4xl max-h-full p-4" (click)="$event.stopPropagation()">
+    <button class="close-btn absolute top-2 right-2 text-white text-2xl bg-black bg-opacity-50 w-8 h-8 rounded-full flex items-center justify-center" (click)="closeImageModal()">×</button>
+    <img [src]="product?.images?.[selectedImageIndex]" [alt]="product?.title" class="max-w-full max-h-full object-contain">
+  </div>
+</div>

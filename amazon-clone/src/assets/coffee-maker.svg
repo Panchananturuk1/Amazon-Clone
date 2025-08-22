@@ -1,0 +1,68 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="coffeeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c2c2c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#e0e0e0;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="300" fill="#f8f9fa"/>
+  
+  <!-- Base -->
+  <rect x="80" y="240" width="140" height="20" rx="10" fill="url(#coffeeGradient)" stroke="#000" stroke-width="1"/>
+  
+  <!-- Main Body -->
+  <rect x="90" y="120" width="120" height="120" rx="8" fill="url(#coffeeGradient)" stroke="#333" stroke-width="2"/>
+  
+  <!-- Water Reservoir -->
+  <rect x="95" y="80" width="110" height="50" rx="5" fill="url(#glassGradient)" stroke="#999" stroke-width="1"/>
+  
+  <!-- Coffee Pot -->
+  <path d="M 100 160 L 100 220 Q 100 230 110 230 L 180 230 Q 190 230 190 220 L 190 160" fill="url(#glassGradient)" stroke="#999" stroke-width="2"/>
+  
+  <!-- Coffee Pot Handle -->
+  <path d="M 190 180 Q 210 180 210 200 Q 210 220 190 220" stroke="#333" stroke-width="3" fill="none"/>
+  
+  <!-- Coffee Pot Spout -->
+  <path d="M 100 170 Q 85 165 80 170 Q 85 175 100 175" fill="url(#glassGradient)" stroke="#999" stroke-width="1"/>
+  
+  <!-- Coffee Level -->
+  <rect x="105" y="200" width="80" height="25" fill="#8B4513" opacity="0.7"/>
+  
+  <!-- Control Panel -->
+  <rect x="110" y="140" width="80" height="30" rx="3" fill="#1a1a1a" stroke="#333" stroke-width="1"/>
+  
+  <!-- Buttons -->
+  <circle cx="130" cy="155" r="5" fill="#ff0000" stroke="#cc0000" stroke-width="1"/>
+  <circle cx="150" cy="155" r="5" fill="#00ff00" stroke="#00cc00" stroke-width="1"/>
+  <circle cx="170" cy="155" r="5" fill="#0066cc" stroke="#004499" stroke-width="1"/>
+  
+  <!-- Display -->
+  <rect x="125" y="145" width="50" height="8" rx="2" fill="#000" stroke="#333" stroke-width="1"/>
+  <text x="150" y="151" text-anchor="middle" font-family="monospace" font-size="6" fill="#00ff00">12:00</text>
+  
+  <!-- Filter Basket -->
+  <rect x="120" y="85" width="60" height="20" rx="3" fill="#333" stroke="#666" stroke-width="1"/>
+  
+  <!-- Water Level Indicator -->
+  <g stroke="#666" stroke-width="1" fill="none">
+    <line x1="205" y1="90" x2="210" y2="90"/>
+    <line x1="205" y1="100" x2="210" y2="100"/>
+    <line x1="205" y1="110" x2="210" y2="110"/>
+    <line x1="205" y1="120" x2="210" y2="120"/>
+  </g>
+  
+  <!-- Power Cord -->
+  <path d="M 220 250 Q 240 250 250 260 Q 260 270 270 270" stroke="#333" stroke-width="3" fill="none"/>
+  
+  <!-- Brand Logo -->
+  <text x="150" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#999">BREW</text>
+  
+  <!-- Shadow -->
+  <ellipse cx="150" cy="270" rx="70" ry="8" fill="#000" opacity="0.1"/>
+</svg>

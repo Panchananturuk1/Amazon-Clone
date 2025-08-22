@@ -1,0 +1,168 @@
+<div class="cart-container">
+  <div class="container">
+    <!-- Cart Header -->
+    <div class="cart-header">
+      <h1>Shopping Cart</h1>
+      <div class="cart-actions" *ngIf="cartItems.length > 0">
+        <button class="select-all-btn" (click)="toggleSelectAll()">
+          {{ allSelected ? 'Deselect all items' : 'Select all items' }}
+        </button>
+        <span class="price-text">Price</span>
+      </div>
+    </div>
+
+    <div class="cart-layout" *ngIf="cartItems.length > 0; else emptyCart">
+      <!-- Cart Items -->
+      <div class="cart-items">
+        <div class="cart-item" *ngFor="let item of cartItems; trackBy: trackByItemId" [class.selected]="item.selected">
+          <div class="item-checkbox">
+            <input type="checkbox" [checked]="item.selected" (change)="toggleItemSelection(item)" />
+          </div>
+          
+          <div class="item-image">
+            <img [src]="item.image" [alt]="item.title" />
+          </div>
+          
+          <div class="item-details">
+            <div class="item-title">
+              <a [routerLink]="['/product', item.id]">{{ item.title }}</a>
+            </div>
+            
+            <div class="item-info">
+              <div class="item-availability" [class]="item.inStock ? 'in-stock' : 'out-of-stock'">
+                {{ item.inStock ? 'In Stock' : 'Currently unavailable' }}
+              </div>
+              
+              <div class="item-options" *ngIf="item.selectedOptions">
+                <span *ngFor="let option of item.selectedOptions | keyvalue" class="option">
+                  {{ option.key }}: {{ option.value }}
+                </span>
+              </div>
+              
+              <div class="item-actions">
+                <div class="quantity-selector">
+                  <label for="quantity-{{ item.id }}">Qty:</label>
+                  <select [id]="'quantity-' + item.id" [value]="item.quantity" (change)="updateQuantity(item, $event)">
+                    <option *ngFor="let qty of getQuantityOptions(item.maxQuantity)" [value]="qty">{{ qty }}</option>
+                  </select>
+                </div>
+                
+                <button class="action-btn" (click)="removeFromCart(item.id)">Delete</button>
+                <button class="action-btn" (click)="saveForLater(item.id)">Save for later</button>
+                <button class="action-btn" (click)="shareItem(item)">Share</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="item-price">
+            <div class="current-price">${{ item.price.toFixed(2) }}</div>
+            <div class="original-price" *ngIf="item.originalPrice && item.originalPrice > item.price">
+              <span class="strikethrough">${{ item.originalPrice.toFixed(2) }}</span>
+            </div>
+            <div class="savings" *ngIf="item.originalPrice && item.originalPrice > item.price">
+              Save ${{ (item.originalPrice - item.price).toFixed(2) }}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Subtotal for selected items -->
+        <div class="cart-subtotal" *ngIf="selectedItems.length > 0">
+          <div class="subtotal-text">
+            Subtotal ({{ selectedItems.length }} item{{ selectedItems.length > 1 ? 's' : '' }}):
+            <span class="subtotal-price">${{ getSelectedSubtotal().toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Cart Summary -->
+      <div class="cart-summary">
+        <div class="summary-card">
+          <div class="summary-header">
+            <div class="subtotal">
+              <span class="subtotal-text">Subtotal ({{ selectedItems.length }} item{{ selectedItems.length > 1 ? 's' : '' }}):</span>
+              <span class="subtotal-price">${{ getSelectedSubtotal().toFixed(2) }}</span>
+            </div>
+            <div class="gift-option">
+              <input type="checkbox" id="gift-option" [(ngModel)]="isGift" />
+              <label for="gift-option">This order contains a gift</label>
+            </div>
+          </div>
+          
+          <button class="proceed-btn" [disabled]="selectedItems.length === 0" (click)="proceedToCheckout()">
+            Proceed to checkout
+          </button>
+          
+          <div class="payment-options">
+            <div class="payment-option">
+              <strong>EMI Available</strong>
+              <p>Your order qualifies for EMI. <a href="#">Details</a></p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Frequently bought together -->
+        <div class="frequently-bought" *ngIf="frequentlyBoughtTogether.length > 0">
+          <h3>Frequently bought together</h3>
+          <div class="bought-together-items">
+            <div class="bought-item" *ngFor="let item of frequentlyBoughtTogether">
+              <img [src]="item.image" [alt]="item.title" />
+              <div class="bought-item-info">
+                <div class="bought-item-title">{{ item.title }}</div>
+                <div class="bought-item-price">${{ item.price.toFixed(2) }}</div>
+                <button class="add-to-cart-btn" (click)="addToCart(item)">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Empty Cart -->
+    <ng-template #emptyCart>
+      <div class="empty-cart">
+        <div class="empty-cart-content">
+          <div class="empty-cart-icon">🛒</div>
+          <h2>Your Amazon Cart is empty</h2>
+          <p>Check your Saved for later items below or <a routerLink="/">continue shopping</a>.</p>
+          <button class="shop-deals-btn" routerLink="/products">Shop today's deals</button>
+        </div>
+      </div>
+    </ng-template>
+    
+    <!-- Saved for Later -->
+    <div class="saved-for-later" *ngIf="savedItems.length > 0">
+      <h2>Saved for later ({{ savedItems.length }})</h2>
+      <div class="saved-items">
+        <div class="saved-item" *ngFor="let item of savedItems">
+          <div class="item-image">
+            <img [src]="item.image" [alt]="item.title" />
+          </div>
+          <div class="item-details">
+            <div class="item-title">
+              <a [routerLink]="['/product', item.id]">{{ item.title }}</a>
+            </div>
+            <div class="item-price">${{ item.price.toFixed(2) }}</div>
+            <div class="item-actions">
+              <button class="action-btn" (click)="moveToCart(item.id)">Move to Cart</button>
+              <button class="action-btn" (click)="deleteSavedItem(item.id)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Recently viewed -->
+    <div class="recently-viewed" *ngIf="recentlyViewed.length > 0">
+      <h2>Your recently viewed items</h2>
+      <div class="recently-viewed-items">
+        <div class="recently-viewed-item" *ngFor="let item of recentlyViewed">
+          <a [routerLink]="['/product', item.id]">
+            <img [src]="item.image" [alt]="item.title" />
+            <div class="item-title">{{ item.title }}</div>
+            <div class="item-price">${{ item.price.toFixed(2) }}</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
